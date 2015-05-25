@@ -1,28 +1,32 @@
 package base;
 
-public class DoublyLinkedList<T> {
+public class UnboundedDeque implements InstructuresDeque{
 	
 	public static void main(String...args) {
-		DoublyLinkedList<Integer> doublyLinkedList = new DoublyLinkedList<Integer>(3);
-		doublyLinkedList.addToHead(4);
+		UnboundedDeque doublyLinkedList = new UnboundedDeque(3);
+		doublyLinkedList.addTop(4);
 		System.out.println(doublyLinkedList.listAsStringForwards());
 		System.out.println(doublyLinkedList.listAsStringBackwards());
 	}
 	
 	private Node head;
 	private Node tail;
+	private int size = 0;
 	
-	public DoublyLinkedList(T value) {
+	public UnboundedDeque(Object value) {
 		this.setHead(new Node(value));
 		this.setTail(this.getHead());
+		this.size = 0;
 	}
 	
-	public DoublyLinkedList() {
+	public UnboundedDeque() {
 		this.setHead(null);
 		this.setTail(null);
+		this.size = 0;
 	}
+
 	
-	public void addToHead(T value) {
+	public void addTop(Object value) {
 		Node newNext = this.getHead();
 		this.setHead(new Node(value));
 		this.getHead().setNext(newNext);
@@ -33,6 +37,7 @@ public class DoublyLinkedList<T> {
 			this.getHead().setPrevious(newNext.getPrevious());
 			newNext.setPrevious(this.getHead());
 		}
+		this.size += 1;
 	}
 	
 	public String listAsStringBackwards() {
@@ -73,23 +78,23 @@ public class DoublyLinkedList<T> {
 	}
 
 	private class Node {
-		private T value;
+		private Object value;
 		private Node previous;
 		private Node next;
 		
 		public Node() {
 		}
-		public Node(T value) {
+		public Node(Object value) {
 			this.setValue(value);
 			this.setPrevious(null);
 			this.setNext(null);
 		}
 
-		public T getValue() {
+		public Object getValue() {
 			return value;
 		}
 
-		public void setValue(T value) {
+		public void setValue(Object value) {
 			this.value = value;
 		}
 
@@ -113,6 +118,53 @@ public class DoublyLinkedList<T> {
 		public String toString() {
 			return value.toString();
 		}
+	}
+
+	@Override
+	public int size() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public boolean isEmpty() {
+		return size == 0;
+	}
+
+	@Override
+	public void addBottom(Object element) {
+		Node newTail = new Node(element);
+		Node oldTail = this.tail;
+		newTail.setPrevious(oldTail);
+		newTail.setNext(null);
+		if (oldTail != null) {
+			oldTail.setNext(newTail);
+		}
+		this.tail = newTail;
+	}
+
+	@Override
+	public Object removeTop() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Object removeBottom() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Object top() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Object bottom() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
