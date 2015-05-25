@@ -14,7 +14,7 @@ public class BoundedQueue implements InstructuresDeque {
 	
 	int capacity;
 	
-	int size;
+	int size = 0;
 	
 	Object[] data;
 	
