@@ -3,7 +3,7 @@ package base;
 public class BoundedQueue implements InstructuresDeque {
 	
 	public static void main(String...args) {
-		BoundedQueue bq = new BoundedQueue(10);
+		BoundedQueue bq = new BoundedQueue(1);
 		bq.addTop("foo");
 		bq.addTop(1);
 		bq.addTop(2);
@@ -38,6 +38,9 @@ public class BoundedQueue implements InstructuresDeque {
 
 	@Override
 	public void addTop(Object element) {
+		if (size == capacity) {
+			throw new IllegalArgumentException("Attempted to add top when over capacity");
+		}
 		if (head == -1) {
 			head = 0;
 			tail = 0;
@@ -50,6 +53,9 @@ public class BoundedQueue implements InstructuresDeque {
 
 	@Override
 	public void addBottom(Object element) {
+		if (size == capacity) {
+			throw new IllegalArgumentException("Attempted to add bottom when over capacity");
+		}
 		if (tail == -1) {
 			tail = 0;
 			head = 0;
