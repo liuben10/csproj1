@@ -3,10 +3,13 @@ package base;
 public class UnboundedDeque implements InstructuresDeque{
 	
 	public static void main(String...args) {
-		UnboundedDeque unboudnedDeque = new UnboundedDeque(3);
-		unboudnedDeque.addBottom(4);
-		System.out.println(unboudnedDeque.listAsStringForwards());
-		System.out.println(unboudnedDeque.listAsStringBackwards());
+		UnboundedDeque unbounded = new UnboundedDeque();
+		unbounded.addBottom(3);
+		unbounded.addTop("foo");
+		unbounded.addBottom(5);
+		unbounded.addBottom(6);
+		System.out.println(unbounded.listAsStringForwards());
+		System.out.println(unbounded.listAsStringBackwards());
 	}
 	
 	private Node head;
@@ -16,28 +19,13 @@ public class UnboundedDeque implements InstructuresDeque{
 	public UnboundedDeque(Object value) {
 		this.setHead(new Node(value));
 		this.setTail(this.getHead());
-		this.size = 0;
+		this.size = 1;
 	}
 	
 	public UnboundedDeque() {
 		this.setHead(null);
 		this.setTail(null);
 		this.size = 0;
-	}
-
-	
-	public void addTop(Object value) {
-		Node newNext = this.getHead();
-		this.setHead(new Node(value));
-		this.getHead().setNext(newNext);
-		if (newNext == null) {
-			this.getHead().setPrevious(null);
-			this.setTail(this.getHead());
-		} else {
-			this.getHead().setPrevious(newNext.getPrevious());
-			newNext.setPrevious(this.getHead());
-		}
-		this.size += 1;
 	}
 	
 	public String listAsStringBackwards() {
@@ -122,49 +110,86 @@ public class UnboundedDeque implements InstructuresDeque{
 
 	@Override
 	public int size() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.size;
 	}
 
 	@Override
 	public boolean isEmpty() {
-		return size == 0;
+		return this.size == 0;
+	}
+	
+	@Override
+	public void addTop(Object value) {
+		Node oldHead = this.getHead();
+		Node newHead = new Node(value);
+		this.setHead(newHead);
+		newHead.setNext(oldHead);
+		if (isEmpty()) {
+			this.setTail(newHead);
+		} else {
+			newHead.setNext(oldHead);
+			oldHead.setPrevious(newHead);
+		}
+		this.size += 1;
 	}
 
 	@Override
 	public void addBottom(Object element) {
+		Node oldTail = this.getTail();
 		Node newTail = new Node(element);
-		Node oldTail = this.tail;
+		this.setTail(newTail);
 		newTail.setPrevious(oldTail);
-		newTail.setNext(null);
-		if (oldTail != null) {
+		if (isEmpty()) {
+			this.setHead(newTail);
+		} else {
+			newTail.setPrevious(oldTail);
 			oldTail.setNext(newTail);
 		}
-		this.tail = newTail;
+		this.size += 1;
 	}
 
 	@Override
 	public Object removeTop() {
-		// TODO Auto-generated method stub
-		return null;
+		Node topNode = this.head;
+		if (!this.isEmpty()) {
+			this.head = topNode.getNext();
+			if (this.head != null) {
+				this.head.setPrevious(null);	
+			} else {
+				this.tail = null;
+			}
+			this.size -= 1;
+			return topNode.getValue();
+		} else {
+			throw new IllegalArgumentException("Tried to remove top from an empty list");
+		}
 	}
 
 	@Override
 	public Object removeBottom() {
-		// TODO Auto-generated method stub
-		return null;
+		Node bottomNode = this.tail;
+		if (!isEmpty()) {
+			this.tail = bottomNode.getPrevious();
+			if (this.tail != null) {
+				this.tail.setNext(null);
+			} else {
+				this.head = null;
+			}
+			this.size -= 1;
+			return bottomNode.getValue();
+		} else {
+			throw new IllegalArgumentException("Tried to remove bottom from an empty list");
+		}
 	}
 
 	@Override
 	public Object top() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.head;
 	}
 
 	@Override
 	public Object bottom() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.tail;
 	}
 
 }
