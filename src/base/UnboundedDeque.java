@@ -3,10 +3,10 @@ package base;
 public class UnboundedDeque implements InstructuresDeque{
 	
 	public static void main(String...args) {
-		UnboundedDeque doublyLinkedList = new UnboundedDeque(3);
-		doublyLinkedList.addTop(4);
-		System.out.println(doublyLinkedList.listAsStringForwards());
-		System.out.println(doublyLinkedList.listAsStringBackwards());
+		UnboundedDeque unboudnedDeque = new UnboundedDeque(3);
+		unboudnedDeque.addBottom(4);
+		System.out.println(unboudnedDeque.listAsStringForwards());
+		System.out.println(unboudnedDeque.listAsStringBackwards());
 	}
 	
 	private Node head;
